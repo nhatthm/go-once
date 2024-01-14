@@ -9,8 +9,6 @@ A simple library to do something exactly once.
 [![GoDevDoc](https://img.shields.io/badge/dev-doc-00ADD8?logo=go)](https://pkg.go.dev/go.nhat.io/once)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=PJZSGJN57TDJY)
 
-TBD
-
 ## Prerequisites
 
 - `Go >= 1.21`

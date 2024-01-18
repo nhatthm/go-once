@@ -66,6 +66,14 @@ func (m *Map[K, V]) Len() int {
 	return result
 }
 
+// Range calls f sequentially for each key and value present in the map.
+// If f returns false, range stops the iteration.
+func (m *Map[K, V]) Range(f func(key K, value V) bool) {
+	(*sync.Map)(m).Range(func(key, value any) bool {
+		return f(key.(K), value.(V))
+	})
+}
+
 // FuncMap is a map of functions that are only computed once.
 type FuncMap[K any] Map[K, func()]
 
@@ -104,6 +112,19 @@ func (m *ValueMap[K, V]) Delete(key K) {
 // Len returns the number of functions in the map.
 func (m *ValueMap[K, V]) Len() int {
 	return (*Map[K, func() V])(m).Len()
+}
+
+// Values returns all values in the map. If f panics, the function will panic with the same value on every call.
+func (m *ValueMap[K, V]) Values() []V {
+	result := make([]V, 0)
+
+	(*Map[K, func() V])(m).Range(func(_ K, f func() V) bool {
+		result = append(result, f())
+
+		return true
+	})
+
+	return result
 }
 
 // ValuesMap is a map of functions that are only computed once.

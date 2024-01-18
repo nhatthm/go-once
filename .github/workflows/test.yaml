@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Go
-        uses: nhatthm/gh-actions/setup-go@v5
+        uses: nhatthm/gh-actions/setup-go@master
         with:
           go-version: ${{ matrix.go-version }}
 

@@ -17,6 +17,7 @@ jobs:
       go-latest-version: ${{ steps.find-go-version.outputs.go-latest-version }}
       go-supported-versions: ${{ steps.find-go-version.outputs.go-supported-versions }}
     steps:
+      - uses: actions/checkout@v4
       - id: find-go-version
         uses: nhatthm/gh-actions/find-go-version@master
 
@@ -31,13 +32,13 @@ jobs:
     env:
       GO_LATEST_VERSION: ${{ needs.setup.outputs.go-latest-version }}
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Install Go
         uses: nhatthm/gh-actions/setup-go@v5
         with:
           go-version: ${{ matrix.go-version }}
-
-      - name: Checkout code
-        uses: actions/checkout@v4
 
       - name: Go cache
         uses: actions/cache@v3

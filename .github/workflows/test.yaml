@@ -9,19 +9,30 @@ on:
 
 env:
   GO111MODULE: "on"
-  GO_LATEST_VERSION: "1.21.x"
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+        go-latest-version: ${{ steps.find-go-versions.outputs.go-latest-version }}
+        go-supported-versions: ${{ steps.find-go-versions.outputs.go-supported-versions }}
+    steps:
+      - id: find-go-versions
+        uses: nhatthm/gh-actions/find-go-versions@master
+
   test:
     strategy:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, macos-latest ]
-        go-version: [ 1.21.x ]
+        go-version: [ ${{ fromJson(needs.setup.outputs.go-supported-versions) }} ]
     runs-on: ${{ matrix.os }}
+    needs: [setup]
+    env:
+      GO_LATEST_VERSION: ${{ needs.setup.outputs.go-latest-version }}
     steps:
       - name: Install Go
-        uses: actions/setup-go@v5
+        uses: nhatthm/gh-actions/setup-go@v5
         with:
           go-version: ${{ matrix.go-version }}
 

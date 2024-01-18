@@ -235,6 +235,20 @@ func TestValueMap_Panics(t *testing.T) {
 	assert.Equal(t, int64(1), count.Load())
 }
 
+func TestValueMap_Values(t *testing.T) {
+	t.Parallel()
+
+	m := once.ValueMap[string, string]{}
+
+	m.Do("key1", func() string { return "value1" })
+	m.Do("key2", func() string { return "value2" })
+
+	actual := m.Values()
+	expected := []string{"value1", "value2"}
+
+	assert.ElementsMatch(t, expected, actual)
+}
+
 func TestValuesMap(t *testing.T) {
 	t.Parallel()
 

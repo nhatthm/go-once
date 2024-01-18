@@ -14,11 +14,11 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-        go-latest-version: ${{ steps.find-go-versions.outputs.go-latest-version }}
-        go-supported-versions: ${{ steps.find-go-versions.outputs.go-supported-versions }}
+        go-latest-version: ${{ steps.find-go-version.outputs.go-latest-version }}
+        go-supported-versions: ${{ steps.find-go-version.outputs.go-supported-versions }}
     steps:
-      - id: find-go-versions
-        uses: nhatthm/gh-actions/find-go-versions@master
+      - id: find-go-version
+        uses: nhatthm/gh-actions/find-go-version@master
 
   test:
     strategy:

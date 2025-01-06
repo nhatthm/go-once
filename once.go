@@ -45,7 +45,7 @@ type Map[K, V any] sync.Map
 func (m *Map[K, V]) Get(key K, defaultValue V) V {
 	v, _ := (*sync.Map)(m).LoadOrStore(key, defaultValue)
 
-	return v.(V)
+	return v.(V) //nolint: errcheck
 }
 
 // Delete removes the key and its value from the map.
@@ -70,7 +70,7 @@ func (m *Map[K, V]) Len() int {
 // If f returns false, range stops the iteration.
 func (m *Map[K, V]) Range(f func(key K, value V) bool) {
 	(*sync.Map)(m).Range(func(key, value any) bool {
-		return f(key.(K), value.(V))
+		return f(key.(K), value.(V)) //nolint: errcheck
 	})
 }
 
